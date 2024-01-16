@@ -14,7 +14,13 @@ def get_env(render_mode: Optional[str] = None) -> gym.Env:
     env_args["render_mode"] = render_mode
     base_env = gym.make(**env_args)
     time_limit_env = gym.wrappers.TimeLimit(base_env, max_episode_steps=MAX_EPISODE_STEPS)
-    return gym.wrappers.RecordEpisodeStatistics(time_limit_env, deque_size=100_000)
+    record_episode_statistics_env = gym.wrappers.RecordEpisodeStatistics(time_limit_env, deque_size=100_000)
+    return record_episode_statistics_env
+
+
+def get_state_dim(env: gym.Env) -> int:
+    """Returns the dimension of the state space."""
+    return env.observation_space.n
 
 
 def q_learning_heatmap(q_table: defaultdict, shape: Tuple[int, int]):
@@ -42,4 +48,11 @@ def plot_durations(durations: List[float]) -> None:
     plt.plot(averaged_durations)
     plt.xlabel("Episode")
     plt.ylabel("Duration")
+    plt.show()
+
+
+def plot_training_error(training_error: List[float]) -> None:
+    plt.plot(training_error)
+    plt.xlabel("Episode")
+    plt.ylabel("Training Error")
     plt.show()

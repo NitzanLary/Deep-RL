@@ -1,4 +1,5 @@
-from MiscUtils import q_learning_heatmap, plot_rewards_per_episode, plot_durations
+from BasicDQN_Agent import BasicDQN_Agent
+from MiscUtils import q_learning_heatmap, plot_rewards_per_episode, plot_durations, get_state_dim, plot_training_error
 from QLearningAgent import QLearningAgent
 
 
@@ -31,5 +32,18 @@ def assignment_1():
     plot_durations(agent.statistics["steps_per_episode"])
 
 
+def assignment_1_deep():
+    agent = BasicDQN_Agent()
+    # agent.load_weights("pickles/q_network_weights_5.pt")
+    agent.train(3500)
+    agent.save_weights("pickles/q_network_weights_5.pt")
+
+    # plot training error
+    plot_training_error(agent.training_error)
+
+    agent.test_agent(2)
+
+
 if __name__ == "__main__":
-    assignment_1()
+    # assignment_1()
+    assignment_1_deep()
